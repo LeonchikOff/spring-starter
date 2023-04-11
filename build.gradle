@@ -24,6 +24,10 @@ repositories {
 
 
 dependencies {
+    // JDBC Implementation Driver
+    // ORM
+    // Template code
+    // Logging
     // Testing
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.9.2'
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.9.2'

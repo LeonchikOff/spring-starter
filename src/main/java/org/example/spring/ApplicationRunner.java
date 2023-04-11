@@ -1,10 +1,7 @@
 package org.example.spring;
 
 import org.example.spring.database.jdbc.pool.ConnectionPool;
-import org.example.spring.database.repository.CompanyRepository;
-import org.example.spring.database.repository.UserRepository;
-import org.example.spring.ioc.ContainerCDI;
-import org.example.spring.service.UserService;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 //      Dependency injection is one of the implementations of the Inversion of Control pattern
 //      Injection is performed through
@@ -13,19 +10,17 @@ import org.example.spring.service.UserService;
 //      3) settlers of object (prevents the object from being kept immutable)
 public class ApplicationRunner {
     public static void main(String[] args) {
+        /*
+            ClassPathXmlApplicationContext implements the ApplicationContext interface,
+            which in turn extends the BeanFactory interface,
+            and also contains a DefaultListableBeanFactory object,
+            which contains a map that is a container of configurable components(beans).
+        */
+        ClassPathXmlApplicationContext classPathXmlApplicationContext =
+                new ClassPathXmlApplicationContext("application.xml");
+//        ConnectionPool connectionPool = classPathXmlApplicationContext.getBean(ConnectionPool.class);
+        ConnectionPool connectionPool1 = classPathXmlApplicationContext.getBean("connectionPool1", ConnectionPool.class);
 
-//      In this case, the injection of dependencies is controlled by the Application Runner class
-        ConnectionPool connectionPool = new ConnectionPool();
-        UserRepository userRepository = new UserRepository(connectionPool);
-        CompanyRepository companyRepository = new CompanyRepository(connectionPool);
-        UserService userService = new UserService(userRepository, companyRepository);
 
-//      In this case, the injection of dependencies is controlled by the ContainerCDI class
-        ContainerCDI containerCDI = new ContainerCDI();
-        ConnectionPool connectionPoolFromCDI = containerCDI.get(ConnectionPool.class);
-        UserRepository userRepositoryFromCDI = containerCDI.get(UserRepository.class);
-        CompanyRepository companyRepositoryFromCDI = containerCDI.get(CompanyRepository.class);
-        UserService userServiceFromCDI = containerCDI.get(UserService.class);
-        //TODO using of userService
     }
 }

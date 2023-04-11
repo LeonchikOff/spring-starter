@@ -24,6 +24,11 @@ repositories {
 
 
 dependencies {
+    // Spring
+//    implementation 'org.springframework:spring-core:5.3.25'
+    implementation 'org.springframework:spring-context:5.3.25'
+
+
     // JDBC Implementation Driver
     // ORM
     // Template code

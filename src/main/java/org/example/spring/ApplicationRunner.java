@@ -1,6 +1,7 @@
 package org.example.spring;
 
 import org.example.spring.database.jdbc.pool.ConnectionPool;
+import org.example.spring.database.repository.CompanyRepository;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 //      Dependency injection is one of the implementations of the Inversion of Control pattern
@@ -18,9 +19,9 @@ public class ApplicationRunner {
         */
         ClassPathXmlApplicationContext classPathXmlApplicationContext =
                 new ClassPathXmlApplicationContext("application.xml");
-//        ConnectionPool connectionPool = classPathXmlApplicationContext.getBean(ConnectionPool.class);
-        ConnectionPool connectionPool1 = classPathXmlApplicationContext.getBean("connectionPool1", ConnectionPool.class);
-
+        ConnectionPool connectionPool = classPathXmlApplicationContext.getBean("connectionPool", ConnectionPool.class);
+        CompanyRepository companyRepository = classPathXmlApplicationContext.getBean("companyRepository", CompanyRepository.class);
+        System.out.println();
 
     }
 }

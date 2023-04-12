@@ -3,12 +3,13 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
-
+<!--Dependency Injection via constructor-->
     <bean id="postgresDriver" class="java.lang.String">
         <constructor-arg type="java.lang.String" value="PostgresDriver"/>
     </bean>
 
     <bean id="connectionPool" class="org.example.spring.database.jdbc.pool.ConnectionPool">
+        <!--Dependency Injection via constructor-->
         <constructor-arg name="username" type="java.lang.String" value="postgres"/>
         <constructor-arg name="poolSize" type="java.lang.Integer" value="10"/>
         <constructor-arg name="args" type="java.util.List">
@@ -19,17 +20,25 @@
             </list>
         </constructor-arg>
         <constructor-arg name="properties" type="java.util.Map">
+<!--            <map>-->
+<!--                <entry key="url" value-type="java.lang.String" value="postgresUrl"/>-->
+<!--                <entry key="password" value-type="java.lang.String" value="postgresUrl"/>-->
+<!--                <entry key="driver" value-ref="postgresDriver"/>-->
+<!--            </map>-->
+            <null/>
+<!-- PS: It is a bad practice to allow null in the constructor -->
+        </constructor-arg>
+        <!--Dependency Injection via set method-->
+        <property name="properties">
             <map>
                 <entry key="url" value-type="java.lang.String" value="postgresUrl"/>
                 <entry key="password" value-type="java.lang.String" value="postgresUrl"/>
                 <entry key="driver" value-ref="postgresDriver"/>
             </map>
-        </constructor-arg>
+        </property>
     </bean>
-
+<!--Dependency Injection via static factory method-->
     <bean id="companyRepository" class="org.example.spring.database.repository.CompanyRepository" factory-method="of">
         <constructor-arg ref="connectionPool"/>
     </bean>
-
-
 </beans>

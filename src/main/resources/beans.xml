@@ -10,10 +10,14 @@
     <!-- Configuration bean PropertySourcesPlaceholderConfigurer-->
     <!--Name space-->
     <context:property-placeholder location="classpath:application.properties"/>
-    <!-- Standard bean definition-->
-    <!--    <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">-->
-    <!--        <property name="locations" value="classpath:application.properties"/>-->
-    <!--    </bean>-->
+<!--     Standard bean definition-->
+<!--        <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">-->
+<!--            <property name="locations" value="classpath:application.properties"/>-->
+<!--        </bean>-->
+
+<!--    BeanFactoryPostProcessors beans-->
+    <bean class="org.example.spring.bfpp.LogBeanFactoryPostProcessor"/>
+    <bean class="org.example.spring.bfpp.VerifyPropertyBeanFactoryPostProcessor"/>
 
     <!--Dependency Injection via constructor-->
     <bean id="db_driver" class="java.lang.String">

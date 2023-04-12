@@ -1,6 +1,6 @@
 package org.example.spring;
 
-import org.example.spring.database.jdbc.pool.ConnectionPool;
+import org.example.spring.database.jdbc.ConnectionPool;
 import org.example.spring.database.repository.CompanyRepository;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -17,11 +17,13 @@ public class ApplicationRunner {
             and also contains a DefaultListableBeanFactory object,
             which contains a map that is a container of configurable components(beans).
         */
-        ClassPathXmlApplicationContext classPathXmlApplicationContext =
-                new ClassPathXmlApplicationContext("application.xml");
-        ConnectionPool connectionPool = classPathXmlApplicationContext.getBean("connectionPool", ConnectionPool.class);
-        CompanyRepository companyRepository = classPathXmlApplicationContext.getBean("companyRepository", CompanyRepository.class);
-        System.out.println();
+        System.out.println("************************************************");
+        System.out.println("classPathXmlApplicationContext creating");
 
+        try (ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("application.xml")) {
+            System.out.println("classPathXmlApplicationContext is created");
+        }
+        System.out.println("classPathXmlApplicationContext is closed");
+        System.out.println("*******************************************");
     }
 }

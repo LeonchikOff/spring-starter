@@ -7,17 +7,18 @@
                             http://www.springframework.org/schema/context
                             https://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
-    <!-- Configuration bean PropertySourcesPlaceholderConfigurer-->
-    <!--Name space-->
-    <context:property-placeholder location="classpath:application.properties"/>
-<!--     Standard bean definition-->
-<!--        <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">-->
-<!--            <property name="locations" value="classpath:application.properties"/>-->
-<!--        </bean>-->
-
-<!--    BeanFactoryPostProcessors beans-->
+    <!--    BeanFactoryPostProcessors beans-->
+    <!--    <context:property-placeholder location="classpath:application.properties"/>-->
+    <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+        <property name="locations" value="classpath:application.properties"/>
+    </bean>
     <bean class="org.example.spring.bfpp.LogBeanFactoryPostProcessor"/>
     <bean class="org.example.spring.bfpp.VerifyPropertyBeanFactoryPostProcessor"/>
+
+    <!--    BeanPostProcessors beans-->
+    <!--    <context:annotation-config/>-->
+    <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
+    <bean class="org.example.spring.bpp.InjectBeanPostProcessor"/>
 
     <!--Dependency Injection via constructor-->
     <bean id="db_driver" class="java.lang.String">
@@ -27,8 +28,7 @@
     <!--(init-method) Configuring bean using an initialization callback that is triggered after the constructor and setters initialisation-->
     <!--(destroy-method) is launched in the process of destroying the application context-->
     <bean id="connectionPool" class="org.example.spring.database.jdbc.ConnectionPool"
-          init-method="initMethod"
-          destroy-method="destroyMethod">
+          init-method="initMethod" destroy-method="destroyMethod">
         <constructor-arg name="poolSize" value="${db.pool.size}"/>
         <!--Dependency Injection via constructor-->
         <constructor-arg name="username" value="${db.username}"/>
@@ -48,7 +48,7 @@
                 <entry key="url" value-type="java.lang.String" value="${db.url}"/>
                 <entry key="password" value-type="java.lang.String" value="${db.password}"/>
                 <entry key="driver" value-ref="db_driver"/>
-<!--           SPEL  (in fact, the idea Spel in XML is the same as Jstl in a JSP file)-->
+                <!--           SPEL  (in fact, the idea Spel in XML is the same as Jstl in a JSP file)-->
                 <entry key="hosts" value="#{'${db.host}'.split(',')}"/>
                 <entry key="currentSystemUser" value="#{systemProperties['user.name']}"/>
                 <entry key="testsBoolean" value="#{db_driver.length() > 10}"/>
@@ -56,10 +56,6 @@
             </map>
         </property>
     </bean>
-    <!--Dependency Injection via static factory method-->
-    <bean id="companyRepository" class="org.example.spring.database.repository.CompanyRepository" factory-method="of">
-        <constructor-arg ref="connectionPool"/>
-    </bean>
-
-
+     <!--The field of bean is injected using the bean postprocessor, which is the handler of the @InjectBean annotation -->
+    <bean id="companyRepository" class="org.example.spring.database.repository.CompanyRepository"/>
 </beans>

@@ -3,6 +3,8 @@ package org.example.spring.database.jdbc;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.util.List;
 import java.util.Map;
 
@@ -25,11 +27,11 @@ public class ConnectionPool implements InitializingBean, DisposableBean {
         this.properties = properties;
     }
 
-// Configuring bean using an initialization callback that is triggered after the constructor and setters initialisation
-//    @PostConstruct
-//    public void postConstruct() {
-//    }
-
+    // Configuring bean using an initialization callback that is triggered after the constructor and setters initialisation
+    @PostConstruct
+    public void postConstruct() {
+        System.out.println("Initialisation callback method with annotation @PostConstruct");
+    }
     @Override
     public void afterPropertiesSet() throws Exception {
         System.out.println("Initialization callback implements the afterPropertiesSet method from InitializingBean");
@@ -40,9 +42,10 @@ public class ConnectionPool implements InitializingBean, DisposableBean {
     }
 
     // The methods is launched in the process of destroying the application context
-//    @PreDestroy
-//    public void postConstruct() {
-//    }
+    @PreDestroy
+    public void preDestroy() {
+        System.out.println("Destroying callback method with annotation @PreDestroy");
+    }
 
     @Override
     public void destroy() throws Exception {

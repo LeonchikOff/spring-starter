@@ -8,7 +8,7 @@ import org.springframework.core.Ordered;
 public class VerifyPropertyBeanFactoryPostProcessor implements BeanFactoryPostProcessor, Ordered {
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        System.out.println();
+        System.out.println("postProcessBeanFactory");
 //        String[] beanDefinitionNames = beanFactory.getBeanDefinitionNames();
 //        for (String beanDefinitionName : beanDefinitionNames) {
 //            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(beanDefinitionName);

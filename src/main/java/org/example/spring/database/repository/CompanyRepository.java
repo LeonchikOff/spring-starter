@@ -5,26 +5,29 @@ import org.example.spring.bpp.annotation.Transaction;
 import org.example.spring.database.entity.Company;
 import org.example.spring.database.jdbc.ConnectionPool;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 @Transaction
 @Auditing
 public class CompanyRepository implements CRUDRepository<Company, Integer> {
-//    @InjectBean
-//    @Qualifier("connectionPool1")
-    @Autowired
-    private ConnectionPool connectionPool1;
-    @Autowired
-    private List<ConnectionPool> connectionPools;
+    private final ConnectionPool connectionPool;
+    private final List<ConnectionPool> connectionPools;
+    private final Integer poolSize;
 
-    @Value("${db.pool.size}")
-    private Integer poolSize;
+    @Autowired
+    public CompanyRepository(ConnectionPool connectionPool,
+                             List<ConnectionPool> connectionPools,
+                             @Value("${db.pool.size}") Integer poolSize) {
+        this.connectionPool = connectionPool;
+        this.connectionPools = connectionPools;
+        this.poolSize = poolSize;
+    }
 
     @PostConstruct
     private void postConstruct() {

@@ -1,6 +1,8 @@
 package org.example.spring;
 
+import org.example.spring.configuration.AppSpringBeanConfiguration;
 import org.example.spring.database.repository.CRUDRepository;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 //      Dependency injection is one of the implementations of the Inversion of Control pattern
@@ -17,13 +19,14 @@ public class ApplicationRunner {
             which contains a map that is a container of configurable components(beans).
         */
         System.out.println("************************************************");
-        System.out.println("classPathXmlApplicationContext creating");
-        try (ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("beans.xml")) {
-            System.out.println("classPathXmlApplicationContext is created");
-            CRUDRepository crudRepository = classPathXmlApplicationContext.getBean("companyRepository", CRUDRepository.class);
+        System.out.println("annotationConfigApplicationContext creating");
+        try (AnnotationConfigApplicationContext annotationConfigApplicationContext =
+                     new AnnotationConfigApplicationContext(AppSpringBeanConfiguration.class)) {
+            System.out.println("annotationConfigApplicationContext is created");
+            CRUDRepository crudRepository = annotationConfigApplicationContext.getBean("companyRepository", CRUDRepository.class);
             crudRepository.findByID(1);
         }
-        System.out.println("classPathXmlApplicationContext is closed");
+        System.out.println("annotationConfigApplicationContext is closed");
         System.out.println("*******************************************");
     }
 }

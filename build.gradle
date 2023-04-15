@@ -33,6 +33,8 @@ dependencies {
     implementation 'org.springframework:spring-context:5.3.25'
 
     // JDBC Implementation Driver
+    implementation 'org.postgresql:postgresql:42.6.0'
+
     // ORM
     // Template code
     // Logging

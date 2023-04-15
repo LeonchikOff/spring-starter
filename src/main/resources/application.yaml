@@ -1,0 +1,22 @@
+db:
+  driver: PostgresDriver
+  url: jdbc:postgresql
+  hosts: localhost,127.0.0.1
+  port: 5432
+  username: ${username.value:postgres}
+  password: postgres
+  properties:
+    first: 123
+    second: 456
+    third:
+      value: Third
+  pool:
+    size: 12
+    timeout: 10
+  pools:
+    - size: 1
+      timeout: 1
+    - size: 2
+      timeout: 2
+    - size: 3
+      timeout: 3
